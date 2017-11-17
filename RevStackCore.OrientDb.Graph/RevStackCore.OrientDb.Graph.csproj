@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>David Sheets</Authors>
+    <Company>MIS</Company>
+    <Version>1.0.1</Version>
+    <PackageTags>RevStackCore;.net core;OrientDb;RevStack;Repository Pattern</PackageTags>
+    <Description>RevStackCore .net core OrientDb Graph repository pattern.</Description>
+    <Copyright>Copyright 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/RevStackCore/OrientDb.Graph/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/24423264?v=3&amp;s=200</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/RevStackCore/OrientDb.Graph</PackageProjectUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RevStackCore.OrientDb" Version="1.0.4" />
+  </ItemGroup>
+
+</Project>
