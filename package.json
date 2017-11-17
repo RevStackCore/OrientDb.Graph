@@ -1,0 +1,19 @@
+{
+  "name": "RevStackCore.OrientDb.Graph",
+  "version": "1.0.2",
+  "description": "OrientDb Graph implementation of the RevStackCore repository pattern",
+  "main": "RevStackCore.OrientDb.Graph.sln",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RevStackCore/OrientDb.Graph.git"
+  },
+  "author": "David Sheets",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RevStackCore/OrientDb.Graph/issues"
+  },
+  "homepage": "https://github.com/RevStackCore/OrientDb.Graph"
+}
