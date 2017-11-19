@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 
-namespace RevStackCore.OrientDb.Graph
+namespace UnitTestOrientDb
 {
-    public interface IOrientDbVertexRepository<TEntity, TKey>
+    public interface IOrientDbEdgeRepository<TEntity, TKey>
     {
+        //void Add(TEntity entity, string from, string to);
         TEntity Add(TEntity entity);
         TEntity Update(TEntity entity);
         void Delete(TEntity entity);

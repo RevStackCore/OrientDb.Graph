@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace RevStackCore.OrientDb.Graph.Client
+namespace RevStackCore.OrientDb.Graph
 {
-    public class HttpOrientDbGraphQueryProvider : Graph.Query.OrientDbGraphQueryProvider
+    public class HttpOrientDbGraphQueryProvider : Graph.OrientDbGraphQueryProvider
     {
         OrientDbConnection _connection;
 

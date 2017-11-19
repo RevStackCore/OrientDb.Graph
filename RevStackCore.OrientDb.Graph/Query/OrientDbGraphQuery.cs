@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace RevStackCore.OrientDb.Graph.Query
+namespace RevStackCore.OrientDb.Graph
 {
     public interface IQueryText
     {

@@ -4,7 +4,7 @@ using RevStackCore.Pattern;
 
 namespace RevStackCore.OrientDb.Graph
 {
-    public class OrientDbEdgeRepository<TEntity, TKey> : OrientDbRepository<TEntity, TKey>, IOrientDbEdgeRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
+    public class OrientDbEdgeRepository<TEntity, TKey> : OrientDbRepository<TEntity, TKey>, IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
     {
         private readonly OrientDbContext _context;
 
@@ -68,6 +68,12 @@ namespace RevStackCore.OrientDb.Graph
             _context.Database.Execute(q);
 
             return base.Update(entity);
+        }
+
+        public new void Delete(TEntity entity)
+        {
+            var name = entity.GetType().Name;
+            _context.Database.Execute("DELETE EDGE " + name + " where id = '" + entity.Id.ToString() + "'");
         }
     }
 }
