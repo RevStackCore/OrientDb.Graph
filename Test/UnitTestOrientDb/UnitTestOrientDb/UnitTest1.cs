@@ -9,7 +9,7 @@ namespace UnitTestOrientDb
     [TestClass]
     public class UnitTest1
     {
-        const string CONNECTION_STRING = "server=http://localhost:2480;database=xxxxx;user=xxxxx;password=xxxxxx";
+        const string CONNECTION_STRING = "server=http://localhost:2480;database=testgraph;user=admin;password=admin";
 
         OrientDbContext dbContext;
         IRepository<User, string> userRepository;

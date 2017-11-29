@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using RevStackCore.OrientDb;
 using RevStackCore.Pattern;
 
 namespace UnitTestOrientDb
 {
-    public class UserGraph : OrientDbEntity, IEntity<string>
+    public class UserGraph : IEntity<string>
     {
         public string Id { get; set; }
         public int Age { get; set; }

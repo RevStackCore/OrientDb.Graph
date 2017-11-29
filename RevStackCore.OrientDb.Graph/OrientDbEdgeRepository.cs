@@ -29,8 +29,11 @@ namespace RevStackCore.OrientDb.Graph
                 throw new System.Exception("'Out' property of type OrientDbEntity is required");
             }
 
-            var In = (OrientDbEntity)type.GetProperty("In").GetValue(entity);
-            var Out = (OrientDbEntity)type.GetProperty("Out").GetValue(entity);
+            var In = type.GetProperty("In").GetValue(entity);
+            var Out = type.GetProperty("Out").GetValue(entity);
+            var inRid = In.GetType().GetProperty("_rid").GetValue(In);
+            var outRid = Out.GetType().GetProperty("_rid").GetValue(Out);
+
             var typeName = Utils.OrientDbUtils.GetEntityIdType(entity);
             entity = Utils.OrientDbUtils.SetEntityIdProperty(entity);
 
@@ -40,7 +43,7 @@ namespace RevStackCore.OrientDb.Graph
             //FIX: alter database custom standardElementConstraints=false
             _context.Database.Execute("CREATE PROPERTY " + name + ".id " + typeName);
             _context.Database.Execute("CREATE INDEX " + name + ".id UNIQUE");
-            var q = "CREATE EDGE " + name + " FROM " + In._rid + " to " + Out._rid + " SET id = '" + entity.Id + "'";
+            var q = "CREATE EDGE " + name + " FROM " + inRid + " to " + outRid + " SET id = '" + entity.Id + "'";
             _context.Database.Execute(q);
             //var edge = base.GetById(entity.Id);
             return base.Update(entity);
@@ -61,10 +64,12 @@ namespace RevStackCore.OrientDb.Graph
                 throw new System.Exception("'From' property of type OrientDbEntity is required");
             }
 
-            var In = (OrientDbEntity)type.GetProperty("In").GetValue(entity);
-            var Out = (OrientDbEntity)type.GetProperty("Out").GetValue(entity);
+            var In = type.GetProperty("In").GetValue(entity);
+            var Out = type.GetProperty("Out").GetValue(entity);
+            var inRid = In.GetType().GetProperty("_rid").GetValue(In);
+            var outRid = Out.GetType().GetProperty("_rid").GetValue(Out);
 
-            var q = "UPDATE EDGE " + name + " SET in = " + In._rid + ", out = " + Out._rid + " WHERE id ='" + entity.Id + "'";
+            var q = "UPDATE EDGE " + name + " SET in = " + inRid + ", out = " + outRid + " WHERE id ='" + entity.Id + "'";
             _context.Database.Execute(q);
 
             return base.Update(entity);

@@ -48,6 +48,17 @@ namespace RevStackCore.OrientDb.Graph
             string body = response.Body;
             //body = body.Replace("out_", "");
             //body = body.Replace("in_", "");
+
+            //orientdb meta
+            body = body.Replace("@rid", "_rid");
+            body = body.Replace("@class", "_class");
+            body = body.Replace("@version", "_version");
+
+            //DEPRICATED
+            //body = body.Replace("@type", "_type");
+            //body = body.Replace("@created", "_created");
+            //body = body.Replace("@modified", "_modified");
+
             var jRoot = JObject.Parse(body);
             var jResults = jRoot.Value<JArray>("result");
 
