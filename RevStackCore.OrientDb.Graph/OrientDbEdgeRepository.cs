@@ -41,9 +41,12 @@ namespace RevStackCore.OrientDb.Graph
 
             //https://github.com/orientechnologies/orientdb/issues/5688
             //FIX: alter database custom standardElementConstraints=false
+            _context.Database.Execute("alter database custom standardElementConstraints=false");
             _context.Database.Execute("CREATE PROPERTY " + name + ".id " + typeName);
             _context.Database.Execute("CREATE INDEX " + name + ".id UNIQUE");
-            var q = "CREATE EDGE " + name + " FROM " + inRid + " to " + outRid + " SET id = '" + entity.Id + "'";
+            //FIX: Older orient instances
+            //var q = "CREATE EDGE " + name + " FROM " + inRid + " to " + outRid + " SET id = '" + entity.Id + "'";
+            var q = "CREATE EDGE " + name + " FROM " + outRid + " to " + inRid + " content { 'id': '" + entity.Id + "'}";
             _context.Database.Execute(q);
             //var edge = base.GetById(entity.Id);
             return base.Update(entity);
