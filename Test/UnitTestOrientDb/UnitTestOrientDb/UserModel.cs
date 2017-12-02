@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using RevStackCore.Pattern;
+
 
 namespace UnitTestOrientDb
 {
-    public class UserGraph : IEntity<string>
+    public class UserModel
     {
         public string Id { get; set; }
         public int Age { get; set; }

@@ -1,8 +1,8 @@
-﻿using RevStackCore.Pattern;
+﻿
 
 namespace RevStackCore.OrientDb.Graph
 {
-    public class OrientDbVertexRepository<TEntity, TKey> : OrientDbRepository<TEntity, TKey>, IRepository<TEntity, TKey> where TEntity : class, IEntity<TKey>
+    public class OrientDbVertexRepository<TVertex, TKey> : OrientDbRepository<TVertex, TKey>, IOrientDbVertexRepository<TVertex, TKey> where TVertex : class, IOrientEntity<TKey>
     {
         private readonly OrientDbContext _context;
 
@@ -12,16 +12,17 @@ namespace RevStackCore.OrientDb.Graph
             _context = context;
         }
         
-        public new TEntity Add(TEntity entity)
+        public override TVertex Add(TVertex entity)
         {
             var name = entity.GetType().Name;
             _context.Database.Execute("CREATE CLASS " + name + " EXTENDS V");
             _context.Database.Execute("CREATE PROPERTY " + name + ".id STRING");
             _context.Database.Execute("CREATE INDEX " + name + ".id UNIQUE");
+
             return base.Add(entity);
         }
 
-        public new void Delete(TEntity entity)
+        public override void Delete(TVertex entity)
         {
             var name = entity.GetType().Name;
             _context.Database.Execute("DELETE VERTEX " + name + " where id = '" + entity.Id.ToString() + "'");

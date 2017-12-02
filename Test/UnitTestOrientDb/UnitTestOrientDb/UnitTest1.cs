@@ -12,22 +12,28 @@ namespace UnitTestOrientDb
         const string CONNECTION_STRING = "server=http://localhost:2480;database=testgraph;user=admin;password=admin";
 
         OrientDbContext dbContext;
-        IRepository<User, string> userRepository;
-        IRepository<Memorial, string> memorialRepository;
-        IRepository<Friend, string> friendRepository;
-        IRepository<MemorialUser, string> memorialUserRepository;
-        IOrientDbGraphQueryRepository<Friend, string> friendQueryRepository;
-        IOrientDbGraphQueryRepository<UserGraph, string> userGraphQueryRepository;
+        IOrientDbVertexService<User, string> userService;
+        IOrientDbVertexService<Memorial, string> memorialService;
+        IOrientDbEdgeService<Friend, User, User, string> friendService;
+        IOrientDbEdgeService<MemorialUser, User, Memorial, string> memorialUserService;
 
+        //Query Service
+        IOrientDbQueryService queryService;
+       
         public UnitTest1()
         {
             dbContext = new OrientDbContext(CONNECTION_STRING);
-            userRepository = new OrientDbVertexRepository<User, string>(dbContext);
-            memorialRepository = new OrientDbVertexRepository<Memorial, string>(dbContext);
-            friendRepository = new OrientDbEdgeRepository<Friend, string>(dbContext);
-            memorialUserRepository = new OrientDbEdgeRepository<MemorialUser, string>(dbContext);
-            friendQueryRepository = new OrientDbGraphQueryRepository<Friend, string>(dbContext);
-            userGraphQueryRepository = new OrientDbGraphQueryRepository<UserGraph, string>(dbContext);
+
+            //vertex
+            userService = new OrientDbVertexService<User, string>(new OrientDbVertexRepository<User, string>(dbContext));
+            memorialService = new OrientDbVertexService<Memorial, string>(new OrientDbVertexRepository<Memorial, string>(dbContext));
+
+            //edge
+            friendService = new OrientDbEdgeService<Friend, User, User, string>(new OrientDbEdgeRepository<Friend, User, User, string>(dbContext));
+            memorialUserService = new OrientDbEdgeService<MemorialUser, User, Memorial, string>(new OrientDbEdgeRepository<MemorialUser, User, Memorial, string>(dbContext));
+
+            //query
+            queryService = new OrientDbQueryService(new OrientDbQueryRepository(dbContext));
         }
 
         [TestMethod]
@@ -36,14 +42,14 @@ namespace UnitTestOrientDb
             //create users
             var user1 = new User { Age = 33, FirstName = "Jane", LastName = "Doe" };
             var user2 = new User { Age = 5, FirstName = "John", LastName = "Doe" };
-            user1 = userRepository.Add(user1);
-            user2 = userRepository.Add(user2);
+            user1 = userService.Add(user1);
+            user2 = userService.Add(user2);
 
             //create memorial
             var memorial = new Memorial { Name = "Bob's Memorial" };
-            memorial = memorialRepository.Add(memorial);
+            memorial = memorialService.Add(memorial);
             memorial.Name = "mem update";
-            memorial = memorialRepository.Update(memorial);
+            memorial = memorialService.Update(memorial);
 
             //edge friend
             var friend = new Friend
@@ -52,8 +58,8 @@ namespace UnitTestOrientDb
                 Out = user2,
                 Description = "Test meta on friends."
             };
-            friend = friendRepository.Add(friend);
-            friend = friendRepository.GetById(friend.Id);
+            friend = friendService.Add(friend);
+            friend = friendService.GetById(friend.Id);
             //edge memorial
             var memorialUser = new MemorialUser
             {
@@ -61,21 +67,21 @@ namespace UnitTestOrientDb
                 In = user1,
                 Meta = "test meta on memorial & user."
             };
-            memorialUser = memorialUserRepository.Add(memorialUser);
+            memorialUser = memorialUserService.Add(memorialUser);
 
             //Update
             memorialUser.Meta = "meta update...";
-            memorialUser = memorialUserRepository.Update(memorialUser);
+            memorialUser = memorialUserService.Update(memorialUser);
 
             //Delete
-            memorialUserRepository.Delete(memorialUser);
+            memorialUserService.Delete(memorialUser);
         }
 
         [TestMethod]
         public void Queryable()
         {
             //Generic query if you know resultset you can build out model
-            var friendQueryable = friendQueryRepository.Find("select * from Friend");
+            var friendQueryable = queryService.Find<Friend>("select * from Friend");
             var friends = friendQueryable.ToList();
 
             //Orient only allows loading records once in the result set. Limitation...looking into a workaround.
