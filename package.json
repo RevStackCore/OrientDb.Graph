@@ -1,6 +1,6 @@
 {
   "name": "RevStackCore.OrientDb.Graph",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "OrientDb Graph implementation of the RevStackCore repository pattern",
   "main": "RevStackCore.OrientDb.Graph.sln",
   "scripts": {
