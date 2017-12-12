@@ -34,21 +34,14 @@ namespace RevStackCore.OrientDb.Graph
             }
             var response = Task.Run(() => HttpClient.SendRequest(url, "GET", string.Empty, _connection.Username, _connection.Password, _connection.SessionId)).Result;
 
+            string body = response.Body;
+
             if (response.StatusCode != 200)
             {
-                throw new RestException
-                {
-                    StatusCode = response.StatusCode,
-                    Body = response.Body,
-                    StatusMessage = response.StatusString,
-                    Url = url
-                };
+                //return empty array object
+                body = "{ \"result\": [] }";
             }
-
-            string body = response.Body;
-            //body = body.Replace("out_", "");
-            //body = body.Replace("in_", "");
-
+            
             //orientdb meta
             body = body.Replace("@rid", "rId");
             body = body.Replace("@class", "_class");
