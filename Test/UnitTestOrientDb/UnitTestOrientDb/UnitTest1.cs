@@ -81,8 +81,17 @@ namespace UnitTestOrientDb
         public void Queryable()
         {
             //Generic query if you know resultset you can build out model
-            var friendQueryable = queryService.Find<Friend>("select * from Friend");
-            var friends = friendQueryable.ToList();
+            //var friendQueryable = queryService.Find<Friend>("select * from Friend");
+            //var friends = friendQueryable.ToList();
+
+            var firstName = "Jane";
+            var users = userService.Find(x => x.FirstName.ToLower() == firstName.ToLower());
+            var user = users.Any();
+            Assert.AreNotEqual(false, user);
+
+            //var query = friendService.Find(x => x.In.FirstName == firstName);
+            //var friends = query.Count();
+            //Assert.AreNotEqual(0, friends);
 
             //Orient only allows loading records once in the result set. Limitation...looking into a workaround.
             //Should return User with Memorials and friends
