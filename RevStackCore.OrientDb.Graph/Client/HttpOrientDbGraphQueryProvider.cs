@@ -19,8 +19,9 @@ namespace RevStackCore.OrientDb.Graph
         public override object Execute(string query, Type elementType)
         {
             int top = -1;
-            string fetch = "*:-1";
-            
+            //string fetch = "*:-1";
+            string fetch = "*:1";
+
             query = System.Net.WebUtility.UrlDecode(query).Replace("http:/", "http://");
             query = query.Replace("https:/", "https://");
             query = query.Replace("?", "\\u003F");
@@ -47,6 +48,7 @@ namespace RevStackCore.OrientDb.Graph
             body = body.Replace("@class", "_class");
             body = body.Replace("@version", "_version");
 
+            
             //DEPRICATED
             //body = body.Replace("@type", "_type");
             //body = body.Replace("@created", "_created");

@@ -81,13 +81,15 @@ namespace UnitTestOrientDb
         public void Queryable()
         {
             //Generic query if you know resultset you can build out model
-            //var friendQueryable = queryService.Find<Friend>("select * from Friend");
-            //var friends = friendQueryable.ToList();
+            var posts = queryService.Find<PostModel>("select * FROM (select *, in('PostCommentEdge') as Comments, out('UserPostEdge') as Users FROM Post)");
+            var list = posts.ToList();
+            int count = list.Count();
+            Assert.AreNotEqual(0, count);
 
-            var firstName = "Jane";
-            var users = userService.Find(x => x.FirstName.ToLower() == firstName.ToLower());
-            var user = users.Any();
-            Assert.AreNotEqual(false, user);
+            //var firstName = "Jane";
+            //var users = userService.Find(x => x.FirstName.ToLower() == firstName.ToLower());
+            //var user = users.Any();
+            //Assert.AreNotEqual(false, user);
 
             //var query = friendService.Find(x => x.In.FirstName == firstName);
             //var friends = query.Count();
