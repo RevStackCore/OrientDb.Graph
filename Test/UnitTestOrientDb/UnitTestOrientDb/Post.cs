@@ -26,4 +26,21 @@ namespace UnitTestOrientDb
     {
         public IEnumerable<Comment> Comments { get; set; }
     }
+
+    public class PostModel2
+    {
+        public string Id { get; set; }
+        public string RId { get; set; }
+        public string Body { get; set; }
+        public DateTime Date { get; set; }
+        public string Permalink { get; set; }
+        public string Image { get; set; }
+        public int SupportCount { get; set; }
+        public int CommentsCount { get; set; }
+        public int ShareCount { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
+        public IEnumerable<ApplicationUser> Users { get; set; }
+    }
+
 }

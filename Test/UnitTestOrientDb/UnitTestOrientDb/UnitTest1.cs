@@ -9,7 +9,7 @@ namespace UnitTestOrientDb
     [TestClass]
     public class UnitTest1
     {
-        const string CONNECTION_STRING = "server=http://localhost:2480;database=testgraph;user=admin;password=admin";
+        const string CONNECTION_STRING = "server=http://54.83.18.247:2480;database=grieveway;user=admin;password=admin";
 
         OrientDbContext dbContext;
         IOrientDbVertexService<User, string> userService;
@@ -80,8 +80,10 @@ namespace UnitTestOrientDb
         [TestMethod]
         public void Queryable()
         {
+            var post = new PostModel();
+            post.
             //Generic query if you know resultset you can build out model
-            var posts = queryService.Find<PostModel>("select * FROM (select *, in('PostCommentEdge') as Comments, out('UserPostEdge') as Users FROM Post)");
+            var posts = queryService.Find<PostModel>("select * FROM (select *, in('PostCommentEdge') as Comments, out('UserPostEdge') as Users, out('UserPostEdge').id as UserId FROM Post)");
             var list = posts.ToList();
             int count = list.Count();
             Assert.AreNotEqual(0, count);

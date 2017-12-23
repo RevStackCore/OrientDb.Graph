@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using RevStackCore.OrientDb.Client;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RevStackCore.OrientDb.Graph
@@ -58,6 +59,15 @@ namespace RevStackCore.OrientDb.Graph
             var jResults = jRoot.Value<JArray>("result");
 
             var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
+            if (elementType == typeof(Int32))
+            {
+                return jResults.Count();
+            }
+            else if (elementType == typeof(bool))
+            {
+                return jResults.Any();
+            }
 
             object results = JsonConvert.DeserializeObject(jResults.ToString(), typeof(IEnumerable<>).MakeGenericType(elementType), settings);
             return results;
